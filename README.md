@@ -9,4 +9,4 @@ To run:
     $npm run dev       //to make changes into "./api/" or after run < $npm run webpack >
     
 All the frontend into APP/ folder
-All the server into API/ folder
+All the server into API/ folder 
