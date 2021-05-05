@@ -1,14 +1,16 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-//import { useHistory } from "react-router";
+import React, { useEffect } from "react";
+import { Route } from "react-router-dom";
+import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Login from "./comps/Login";
 import Register from "./comps/Register";
+import Home from "./comps/Home";
 
 const HeaderStyled = styled.header`
     width: 100%;
     padding: 1em 3em;
-    background: linear-gradient(to right, #1e1f21 10%, #67758f 90%);
+    background: #67758f;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -23,20 +25,24 @@ const HeaderStyled = styled.header`
 `;
 
 const App = () => {
+    let token = useSelector((state) => state.auth.token);
+    let history = useHistory();
+
+    useEffect(() => {
+        if (token !== "") {
+            history.push("/home");
+        } else {
+            history.push("/");
+        }
+    }, [token]);
+
     return (
-        <Router>
+        <>
             <HeaderStyled>
                 <h1>Title</h1>
-                <Route path='/' exact>
+                <Route path='/home'>
                     <nav>
-                        <h5>Don't have an account yet? </h5>
-                        <Link to='/register'>Register</Link>
-                    </nav>
-                </Route>
-                <Route path='/register'>
-                    <nav>
-                        <h5>Already have an account? </h5>
-                        <Link to='/'>Login</Link>
+                        <button>Logout</button>
                     </nav>
                 </Route>
             </HeaderStyled>
@@ -46,7 +52,10 @@ const App = () => {
             <Route path='/register'>
                 <Register />
             </Route>
-        </Router>
+            <Route path='/home'>
+                <Home />
+            </Route>
+        </>
     );
 };
 
