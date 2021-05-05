@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import successAuth from "./redux/actions/getAuth";
 import styled from "styled-components";
 import Login from "./comps/Login";
 import Register from "./comps/Register";
@@ -27,6 +28,7 @@ const HeaderStyled = styled.header`
 const App = () => {
     let token = useSelector((state) => state.auth.token);
     let history = useHistory();
+    let dispatch = useDispatch();
 
     useEffect(() => {
         if (token !== "") {
@@ -35,14 +37,17 @@ const App = () => {
             history.push("/");
         }
     }, [token]);
-
+    const logout = () => {
+        // Just delete the token from store
+        dispatch(successAuth(""));
+    };
     return (
         <>
             <HeaderStyled>
                 <h1>Title</h1>
                 <Route path='/home'>
                     <nav>
-                        <button>Logout</button>
+                        <button onClick={logout}>Logout</button>
                     </nav>
                 </Route>
             </HeaderStyled>
