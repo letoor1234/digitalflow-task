@@ -10,8 +10,9 @@ app.set("port", process.env.PORT || 5000);
 /**End SETINGS */
 
 /**MIDDLEWARES */
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 /**End MIDDLEWARES */
 
 /**DB */
@@ -28,16 +29,16 @@ mongoose.connect(
 
 /**End DB */
 
-/**STATICS */
-app.use(express.static(path.join(__dirname, "public")));
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/index.html"));
-});
-/**End Statics */
-
 /**ROUTES */
 app.use("/api", routes);
 /**End ROUTES */
+
+/**STATICS */
+app.use(express.static(path.join(__dirname, "public")));
+app.get("*/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/index.html"));
+});
+/**End Statics */
 
 /**SERVER */
 app.listen(app.get("port"), () => {
